@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8 />
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <title>Messaging Web</title>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <style>
+	#wrapper {
+	    padding-left: 0;
+	    -webkit-transition: all 0.5s ease;
+	    -moz-transition: all 0.5s ease;
+	    -o-transition: all 0.5s ease;
+	    transition: all 0.5s ease;
+	}
+
+	#wrapper.toggled {
+	    padding-left: 250px;
+	}
+
+	#sidebar-wrapper {
+	    z-index: 1000;
+	    position: fixed;
+	    left: 250px;
+	    width: 0;
+	    height: 100%;
+	    margin-left: -250px;
+	    overflow-y: auto;
+	    background: #000;
+	    -webkit-transition: all 0.5s ease;
+	    -moz-transition: all 0.5s ease;
+	    -o-transition: all 0.5s ease;
+	    transition: all 0.5s ease;
+	}
+
+	#wrapper.toggled #sidebar-wrapper {
+	    width: 250px;
+	}
+
+	#page-content-wrapper {
+	    width: 100%;
+	    position: absolute;
+	    padding: 15px;
+	}
+
+	#wrapper.toggled #page-content-wrapper {
+	    position: absolute;
+	    margin-right: -250px;
+	}
+
+	/* Sidebar Styles */
+
+	.sidebar-nav {
+	    position: absolute;
+	    top: 0;
+	    width: 250px;
+	    margin: 0;
+	    padding: 0;
+	    list-style: none;
+	}
+
+	.sidebar-nav li {
+	    text-indent: 20px;
+	    line-height: 40px;
+	}
+
+	.sidebar-nav li a {
+	    display: block;
+	    text-decoration: none;
+	    color: #999999;
+	}
+
+	.sidebar-nav li a:hover {
+	    text-decoration: none;
+	    color: #fff;
+	    background: rgba(255,255,255,0.2);
+	}
+
+	.sidebar-nav li a:active,
+	.sidebar-nav li a:focus {
+	    text-decoration: none;
+	}
+
+	.sidebar-nav > .sidebar-brand {
+	    height: 65px;
+	    font-size: 18px;
+	    line-height: 60px;
+	}
+
+	.sidebar-nav > .sidebar-brand a {
+	    color: #999999;
+	}
+
+	.sidebar-nav > .sidebar-brand a:hover {
+	    color: #fff;
+	    background: none;
+	}
+
+	@media(min-width:768px) {
+	    #wrapper {
+		padding-left: 250px;
+	    }
+
+	    #wrapper.toggled {
+		padding-left: 0;
+	    }
+
+	    #sidebar-wrapper {
+		width: 250px;
+	    }
+
+	    #wrapper.toggled #sidebar-wrapper {
+		width: 0;
+	    }
+
+	    #page-content-wrapper {
+		padding: 20px;
+		position: relative;
+	    }
+
+	    #wrapper.toggled #page-content-wrapper {
+		position: relative;
+		margin-right: 0;
+	    }
+	}
+
+        .channel {
+          padding: 10px;
+          font-size: 1.2em;
+        }
+
+        html, body {
+          width: 100%;
+          height: 100%;
+        }
+        #wrapper, .hfill {
+          height: 100%;
+          overflow: hidden;
+        }
+        .screen {
+          height: calc(100% - 90px);
+          display: block;
+          margin: 10px;
+          overflow: scroll;
+          overflow-x: auto;
+        }
+    </style>
+  </head>
+  <body onhashchange="changed();">
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        Message
+                    </a>
+                </li>
+                <li>
+                    <a href="#">Username</a>
+                    <form id="username-form">
+                      <div class="col-md-12">
+                        <input type="text" class="form-control" id="username" name="username">
+                      </div>
+                    </form>
+                </li>
+<!--
+                <li>
+                    <a href="#">Dashboard</a>
+                </li>
+-->
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper" class="hfill">
+            <div class="container-fluid hfill">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <a href="#menu-toggle" class="btn btn-sm btn-default" id="menu-toggle">Menu</a>
+                        <span class="channel">#default</span>
+                    </div>
+                </div>
+                <div class="row hfill">
+                  <div class="col-lg-12 hfill">
+                      <div class="screen">
+                          <div class="messages"></div>
+                      </div>
+                      <div class="input">
+                        <form id="text-form">
+                            <input type="text" class="form-control" id="text" name="text">
+                        </form>
+                      </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var path = window.location.pathname;
+      var ref = document.createElement('script');
+      if (path.slice(-1) == "/") {
+        path += "m.js";
+      } else {
+        path += "/m.js";
+      }
+      ref.setAttribute("type","text/javascript");
+      ref.setAttribute("src", path);
+      document.getElementsByTagName("body")[0].appendChild(ref);
+
+      $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+      });
+    </script>
+  </body>
+</html>

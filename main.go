@@ -1,0 +1,29 @@
+package main
+
+import (
+	"net/http"
+
+	"github.com/micro/go-micro/client"
+	"github.com/micro/go-web"
+	"github.com/micro/message-web/handler"
+
+	"golang.org/x/net/websocket"
+
+	message "github.com/micro/message-srv/proto/message"
+)
+
+func main() {
+	service := web.NewService(web.Name("go.micro.web.message"))
+	service.Handle("/", http.FileServer(http.Dir("html")))
+	service.Handle("/read", http.HandlerFunc(handler.Read))
+	service.Handle("/write", http.HandlerFunc(handler.Write))
+	service.Handle("/stream", websocket.Handler(handler.Stream))
+	service.Init()
+
+	handler.MessageClient = message.NewMessageClient(
+		"go.micro.srv.message",
+		client.DefaultClient,
+	)
+
+	service.Run()
+}
