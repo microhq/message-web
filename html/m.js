@@ -1,7 +1,17 @@
 var channel = "#default";
-var url = window.location.origin + window.location.pathname;
-var wsurl = "ws://" + window.location.host + window.location.pathname + "/stream";
-var ws = WebSocket;
+var url = window.location.protocol + "//" + window.location.host + window.location.pathname;
+var wsurl = wsURL();
+var ws = new WebSocket(wsurl);
+
+function wsURL() {
+	var u = "ws://" + window.location.host + window.location.pathname
+
+	if (window.location.pathname.slice(-1) != "/") {
+		u += "/";
+	}
+
+	return u + "stream";
+}
 
 function changed() {
     if (window.location.hash.length > 0) {
@@ -73,7 +83,7 @@ function write(text, fn) {
 
 function stream() {
     ws.onclose = function () {};
-    close(ws);
+    ws.close();
     ws = new WebSocket(wsurl);
     ws.onmessage = recv;
     ws.onopen = function (event) {
