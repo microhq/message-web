@@ -14,14 +14,14 @@ import (
 
 	"golang.org/x/net/websocket"
 	//"github.com/gorilla/mux"
-	message "github.com/micro/message-srv/proto/message"
+	message "github.com/microhq/message-srv/proto/message"
 )
 
 var (
 	templateDir = "templates"
 	opts        *ace.Options
 
-	MessageClient message.MessageClient
+	MessageClient message.MessageService
 	Namespace     = "default"
 )
 

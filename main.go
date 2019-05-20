@@ -3,13 +3,12 @@ package main
 import (
 	"net/http"
 
-	"github.com/micro/go-micro/client"
 	"github.com/micro/go-web"
-	"github.com/micro/message-web/handler"
+	"github.com/microhq/message-web/handler"
 
 	"golang.org/x/net/websocket"
 
-	message "github.com/micro/message-srv/proto/message"
+	message "github.com/microhq/message-srv/proto/message"
 )
 
 func main() {
@@ -20,9 +19,11 @@ func main() {
 	service.Handle("/stream", websocket.Handler(handler.Stream))
 	service.Init()
 
-	handler.MessageClient = message.NewMessageClient(
+	sclient := service.Options().Service
+
+	handler.MessageClient = message.NewMessageService(
 		"go.micro.srv.message",
-		client.DefaultClient,
+		sclient.Client(),
 	)
 
 	service.Run()

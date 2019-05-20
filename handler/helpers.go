@@ -7,7 +7,7 @@ import (
 	//	"strings"
 	"time"
 
-	proto "github.com/micro/message-srv/proto/message"
+	proto "github.com/microhq/message-srv/proto/message"
 )
 
 var (
