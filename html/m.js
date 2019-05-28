@@ -4,7 +4,11 @@ var wsurl = wsURL();
 var ws = new WebSocket(wsurl);
 
 function wsURL() {
-	var u = "ws://" + window.location.host + window.location.pathname
+	var p = "ws://";
+	if (window.location.protocol == "https:") {
+		p = "wss://";
+	}
+	var u = p + window.location.host + window.location.pathname
 
 	if (window.location.pathname.slice(-1) != "/") {
 		u += "/";
@@ -103,8 +107,8 @@ function username() {
 	  url: 'https://randomuser.me/api/',
 	  dataType: 'json',
 	  success: function(data){
-            $('#username').val(data.results[0].user.name.first);
-            localStorage.username = data.results[0].user.name.first;
+            $('#username').val(data.results[0].name.last);
+            localStorage.username = data.results[0].name.last;
 	  }
 	});
     };
